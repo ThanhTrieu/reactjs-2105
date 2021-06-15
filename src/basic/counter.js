@@ -1,6 +1,8 @@
 import React from 'react';
 import ButtonCounter from './components/counter/button';
 import ResultCounter from './components/counter/result';
+import Welcome from './components/counter/welcome';
+import GoodBye from './components/counter/goodbye';
 
 class Counter extends React.Component {
   // state : property trong class js 
@@ -43,6 +45,7 @@ class Counter extends React.Component {
   render(){
     return(
       <>
+        <Welcome/>
         <ResultCounter count={this.state.count}/>
         <ButtonCounter
           types="button"
@@ -56,6 +59,7 @@ class Counter extends React.Component {
           names="decrement"
           click={this.decrementCounter}
         > - </ButtonCounter>
+        <GoodBye/>
       </>
     )
   }
