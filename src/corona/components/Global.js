@@ -1,4 +1,5 @@
 import React from 'react';
+import { Skeleton } from 'antd';
 import { helper } from '../helpers/common';
 import CoronaContext from '../context/index';
 
@@ -8,7 +9,7 @@ const GlobalCorona = () => {
     <CoronaContext.Consumer>
       {context => {
         if(context.loading || helper.isEmptyObject(context.virus)){
-          return <h1> Loading data global ...</h1>
+          return <Skeleton active />
         } else {
           return(
             <section className="global__corona">
