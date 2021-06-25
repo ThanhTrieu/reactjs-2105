@@ -1,8 +1,8 @@
 import React from 'react';
-import LayoutCorona from './components/layout';
-import GlobalCorona from './components/Global';
-import CountriesCorona from './components/Countries';
-import './components/style.css';
+import LayoutCorona from './components/Layout-v2';
+import GlobalCorona from './components/Global-v2';
+import CountriesCorona from './components/Countries-v2';
+// import './components/style.css';
 import CoronaProvider from './context/CoronaProvider';
 
 class AppCorona extends React.PureComponent {
