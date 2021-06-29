@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 // su dung css antd cho toan bo ung dung
 import 'antd/dist/antd.css';
-import App from './hooks/counter';
+import App from './weather/App';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
