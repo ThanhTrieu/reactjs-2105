@@ -1,17 +1,27 @@
 import React from 'react';
 import { Layout, Menu } from 'antd';
+import { NavLink, useLocation } from 'react-router-dom';
 
 const { Header } = Layout;
 
 const HeaderMovies = () => {
+  // biet dc vi tri duong link
+  // hooks cua react router
+  const { pathname } = useLocation();
   return (
     <Header>
       <div className="logo" />
-      <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
-        {new Array(15).fill(null).map((_, index) => {
-          const key = index + 1;
-          return <Menu.Item key={key}>{`nav ${key}`}</Menu.Item>;
-        })}
+      <Menu theme="dark" mode="horizontal" defaultSelectedKeys={pathname}>
+        <Menu.Item key="/popular-movie">
+          <NavLink to="/popular-movie">
+            Popular movies
+          </NavLink>
+        </Menu.Item>
+        <Menu.Item key="/search-movie">
+          <NavLink to="/search-movie">
+            Search movies
+          </NavLink> 
+        </Menu.Item>
       </Menu>
     </Header>
   )
