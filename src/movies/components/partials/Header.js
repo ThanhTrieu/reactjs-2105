@@ -41,11 +41,11 @@ const HeaderMovies = () => {
           </Menu.Item>
         }
 
-        { emailUser !== null && <Menu.Item> Hi : {emailUser} </Menu.Item> }
+        { emailUser !== null && <Menu.Item key="user"> Hi : {emailUser} </Menu.Item> }
 
         { emailUser !== null 
           &&
-          <Menu.Item onClick={() => logoutMovie()}>
+          <Menu.Item key="logout" onClick={() => logoutMovie()}>
             Logout
           </Menu.Item>
         }

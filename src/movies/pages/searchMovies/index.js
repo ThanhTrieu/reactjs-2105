@@ -10,11 +10,11 @@ import { helper } from '../../helpers/common';
 const SearchMovies = () => {
   const [loading, setLoading] = useState(false);
   const [dataSearch, setDataSearch] = useState({});
-  const [page, setPage] = useState(1);
+  //const [page, setPage] = useState(1);
 
   const searchFilm = async (keyword) => {
     setLoading(true);
-    const data = await api.searchMovieByKeyword(keyword, page);
+    const data = await api.searchMovieByKeyword(keyword, 1);
     if(!helper.isEmptyObject(data)){
       if(data.hasOwnProperty('results')){
         setDataSearch(data.results);
