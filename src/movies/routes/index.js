@@ -2,13 +2,58 @@ import React, { lazy, Suspense } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
-  Route
+  Route,
+  Redirect
 } from "react-router-dom";
 import { Skeleton } from 'antd';
+import { helper } from '../helpers/common';
 
 const PopularMoviesPage = lazy(() => import('../pages/popularMovies/index'));
 const SearchMoviesPage = lazy(() => import('../pages/searchMovies/index'));
 const DetailMoviePage = lazy(() => import('../pages/detail/index'));
+const LoginMoviePage = lazy(() => import('../pages/login/index'));
+
+function IsLoginUserMovie({ children, ...rest }) {
+  let auth = helper.fakeAuthLogin(); // biet login hay chua
+  return (
+    <Route
+      {...rest}
+      render={({location}) =>
+        auth ? (
+          <Redirect
+            to={{
+              pathname: "/",
+              state: { from: location }
+            }}
+          />
+        ) : (
+          children
+        )
+      }
+    />
+  )
+}
+
+function PrivateRouteMovie({ children, ...rest }) {
+  let auth = helper.fakeAuthLogin(); // biet login hay chua
+  return (
+    <Route
+      {...rest}
+      render={({ location }) =>
+        auth ? (
+          children
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/movie/login",
+              state: { from: location }
+            }}
+          />
+        )
+      }
+    />
+  );
+}
 
 const RouteMovie = () => {
   return (
@@ -16,20 +61,28 @@ const RouteMovie = () => {
       <Suspense fallback={<Skeleton active/>}>
         <Switch>
           {/* duong dan mac dinh */}
-          <Route path="/" exact>
+          <PrivateRouteMovie path="/" exact>
             <PopularMoviesPage/>
-          </Route>
-          <Route path="/popular-movie">
+          </PrivateRouteMovie>
+
+          <PrivateRouteMovie path="/popular-movie">
             <PopularMoviesPage/>
-          </Route>
-          <Route path="/search-movie">
+          </PrivateRouteMovie>
+
+          <PrivateRouteMovie path="/search-movie">
             <SearchMoviesPage/>
-          </Route>
+          </PrivateRouteMovie>
+
           {/* localhost:3000/movie/ngoi-nha-hanh-phuc~189723 */}
           {/* :slug :ten prama */}
-          <Route path="/movie/:slug~:id">
+          <PrivateRouteMovie path="/movie/:slug~:id">
             <DetailMoviePage/>
-          </Route>
+          </PrivateRouteMovie>
+
+          <IsLoginUserMovie path="/movie/login">
+            <LoginMoviePage/>
+          </IsLoginUserMovie>
+
         </Switch>
       </Suspense>
     </Router>
