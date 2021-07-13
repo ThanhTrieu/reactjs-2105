@@ -8,7 +8,7 @@ export const requestGetDataToServer = () => ({
 
 // hanh dong cua saga
 export const loadingGetData = (loading) => ({
-  type: types,
+  type: types.LOADING_GET_DATA,
   loading
 });
 export const getDataSuccessful = (data) => ({

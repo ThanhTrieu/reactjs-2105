@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 // su dung css antd cho toan bo ung dung
 import 'antd/dist/antd.css';
-import App from './redux/counter/index';
+import App from './redux/football/index';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(

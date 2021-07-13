@@ -14,6 +14,13 @@ export const GET_DATA_FAIL = Symbol('GET_DATA_FAIL');
 // chi co nhung hanh dong tren duoc dispatch vao reducer
 
 
+export const REQUEST_DETAIL_MATCH = Symbol('REQUEST_DETAIL_MATCH');
+export const LOADING_GET_DETAIL_DATA = Symbol('LOADING_GET_DETAIL_DATA');
+export const GET_DATA_DETAIL_SUCCESSFUL = Symbol('GET_DATA_DETAIL_SUCCESSFUL');
+export const GET_DATA_DETAIL_EMPTY = Symbol('GET_DATA_DETAIL_EMPTY');
+export const GET_DATA_DETAIL_FAIL = Symbol('GET_DATA_DETAIL_FAIL');
+
+
 
 
 
