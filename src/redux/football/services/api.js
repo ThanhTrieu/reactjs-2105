@@ -3,8 +3,16 @@ import axios from 'axios';
 const getMainData = ( data, id = 403 ) => {
   if(data.hasOwnProperty('data')){
     if(data['data'].hasOwnProperty(id)){
-      if(data['data'][`${id}`].hasOwnProperty('data')){
-        return data['data'][`${id}`]['data'];
+      if(id !== 403){
+        if(data['data'][`${id}`] !== null){
+          return data['data'][`${id}`];
+        }
+      } else {
+        if(data['data'][`${id}`].hasOwnProperty('data')){
+          if(data['data'][`${id}`]['data'] !== null){
+            return data['data'][`${id}`]['data'];
+          }
+        }
       }
     }
   }
