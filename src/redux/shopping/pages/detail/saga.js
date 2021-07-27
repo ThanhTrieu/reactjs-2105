@@ -1,13 +1,13 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import * as actions from './actions';
 import { api } from '../../services/api';
-import { helper } from '../../helpers/common';
+//import { helper } from '../../helpers/common';
 
 function* detailSaga({ id }) {
   try {
     yield put(actions.startGetDataProductById(true));
     const data = yield call(api.getDataProductById, id);
-    if(!helper.isEmptyObject(data)){
+    if(data !== undefined){
       yield put(actions.getDataProductByIdSuccess(data));
     } else {
       yield put(actions.getDataProductByIdNotFound({

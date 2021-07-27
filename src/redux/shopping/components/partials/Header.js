@@ -1,16 +1,31 @@
 import React from 'react';
 import { Layout, Menu } from 'antd';
+import { useLocation, NavLink } from 'react-router-dom';
+import { getItemsCart } from '../../pages/cart/reselect';
+import { createStructuredSelector } from 'reselect';
+import { useSelector } from 'react-redux';
 
 const { Header } = Layout;
 
 const HeaderShopping = () => {
+  const { pathname } = useLocation();
+  const { count } = useSelector(createStructuredSelector({
+    count: getItemsCart
+  }))
   return (
     <Header className="header">
       <div className="logo" />
-      <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
-        <Menu.Item key="1">Home</Menu.Item>
-        <Menu.Item key="2">nav 2</Menu.Item>
-        <Menu.Item key="3">nav 3</Menu.Item>
+      <Menu theme="dark" mode="horizontal" defaultSelectedKeys={pathname}>
+        <Menu.Item key="/">
+          <NavLink to="/">
+            Home
+          </NavLink>
+        </Menu.Item>
+        <Menu.Item key="/cart">
+          <NavLink to="/cart">
+            Cart ( { count } )
+          </NavLink>
+        </Menu.Item>
       </Menu>
     </Header>
   )
