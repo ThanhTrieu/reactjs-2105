@@ -1,15 +1,26 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import LayoutShopping from '../../components/Layout';
 import { Row, Col, Image, InputNumber, Button } from 'antd';
 import { getDataItemsCart, getTotalMoneyCart } from './reselect';
 import { createStructuredSelector } from 'reselect';
 import { useSelector } from 'react-redux';
+import NumberFormat from 'react-number-format';
+import { changeQtyCart, deleteItemProductCart } from './actions';
 
 const CartComponent = () => {
     const { totalMoney, itemsCart } = useSelector(createStructuredSelector({
         totalMoney: getTotalMoneyCart,
         itemsCart: getDataItemsCart
     }));
+    const dispatch = useDispatch();
+
+    const changeItemCart = (id, val) => {
+        dispatch(changeQtyCart(id,val));
+    }
+    const removeItemCartById = (id) => {
+        dispatch(deleteItemProductCart(id));
+    }
 
     if(itemsCart.length === 0 || itemsCart === undefined){
         return (
@@ -43,16 +54,27 @@ const CartComponent = () => {
                                 <Image src={item.image} />
                             </Col>
                             <Col span={20}>
-                                <h4> {item.name}</h4>
-                                <p> Price: {item.price}</p>
+                                <h3> {item.name}</h3>
+                                <p> Price: <NumberFormat value={item.price} displayType={'text'} thousandSeparator={true} /> </p>
+                                <p>Money: <NumberFormat value={parseInt(item.price)*parseInt(item.qty)} displayType={'text'} thousandSeparator={true} /></p>
                                 <br/>
-                                <InputNumber min={1} max={10} defaultValue={item.qty} />
-                                <Button type="dashed"> Xoa </Button>
+                                <InputNumber
+                                    min={1}
+                                    max={10}
+                                    value={item.qty}
+                                    onChange={ val => changeItemCart(item.id, val)}
+                                />
+                                <Button
+                                    type="dashed"
+                                    onClick={() => removeItemCartById(item.id)}
+                                > Xoa </Button>
                             </Col>
                         </Row>
                     ))}
                     <div style={{ clear: 'both' }}></div>
-                    <h3 style={{ float: 'right' }}> Tong tien : {totalMoney}</h3>
+                    <h3 style={{ float: 'right' }}> 
+                        Tong tien : <NumberFormat value={totalMoney} displayType={'text'} thousandSeparator={true} />
+                    </h3>
                     <div style={{ clear: 'both' }}></div>
                 </Col>
             </Row>

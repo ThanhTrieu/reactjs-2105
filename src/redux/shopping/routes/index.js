@@ -1,18 +1,20 @@
 import React, { lazy, Suspense } from 'react';
+import { ConnectedRouter } from 'connected-react-router';
+import configStore from '../store/index';
 import {
-  BrowserRouter as Router,
   Switch,
   Route
 } from "react-router-dom";
 import { Skeleton } from 'antd';
 
+const { history } = configStore();
 const HomePage = lazy(() => import('../pages/home/index'));
 const DetailPage = lazy(() => import('../pages/detail/index'));
 const CartPage = lazy(() => import('../pages/cart/index'));
 
 const RoutesApp = () => {
   return (
-    <Router>
+    <ConnectedRouter history={history}>
       <Suspense fallback={<Skeleton active />}>
         <Switch>
           <Route path="/" exact>
@@ -26,7 +28,7 @@ const RoutesApp = () => {
           </Route>
         </Switch>
       </Suspense>
-    </Router>
+    </ConnectedRouter>
   )
 }
 export default RoutesApp;

@@ -73,6 +73,54 @@ export const cartReducer = (state = initialState, action) => {
                 ...state,
                 ...{ error: action.error }
             }
+        case actions.CHANGE_QUANTITY_ITEM_CART:
+            const idItemCart = action.id;
+            let qtyChange = action.qty;
+            qtyChange = (qtyChange === null || qtyChange === undefined || qtyChange === '') ? 1 : qtyChange;
+            // cap nhat so luong mua cua san pham trong gio voi id tuong ung
+            // cap nhat lai thong tin gio hang (co gio hang moi)
+            const newDataCarts = state.dataCart.map(item => {
+                return item.id === idItemCart ? {...item, qty: qtyChange } : item;
+            });
+            // cap nhat lai thong tin tong tien
+            const newTotalMoney = newDataCarts.map(item => parseInt(item.qty) * parseInt(item.price)).reduce((pre, next) => pre + next);
+            // map(item => parseInt(item.qty) * parseInt(item.price)): tra ve mang chua tien cua cac san trong gio hang can thanh toan
+            // reduce((pre, next) => pre + next): tinh tong so tien mua tu ham map tra ve
+            
+            // cap nhat state cart
+            return {
+                ...state,
+                ...{
+                    error: {},
+                    dataCart: newDataCarts,
+                    totalMoney: newTotalMoney
+                    // khong duoc phep cap nhat lai so luong san pham trong gio hang
+                }
+            }
+        case actions.DELETE_ITEM_CART:
+            // xu ly xoa san pham
+            const idDelItem = action.id;
+            // can phai lay dc toan bo thong tin cua san pham co id tuong ung do
+            // muc dich : de sau nay cap nhat lai tong tien
+            const delItem = state.dataCart.find(item => item.id === idDelItem);
+            // ham find ko lam anh huong den mang ban dau
+
+            // xoa bo san pham co id tuong ung ra khoi gio hang
+            // de cap nhat lai gio hang
+            // cap nhat lai so luong san pham trong gio hang
+            const newDelCarts = state.dataCart.filter(item => item.id !== idDelItem);
+            // tinh lai tong tien - de cap nhat lai
+            const newTotalMoneyDel = state.totalMoney - (parseInt(delItem.price)*parseInt(delItem.qty));
+
+            return {
+                ...state,
+                ...{
+                    error: {},
+                    dataCart: newDelCarts,
+                    totalMoney: newTotalMoneyDel,
+                    countItems: state.countItems - 1
+                }
+            }
         default:
             return state;
     }
