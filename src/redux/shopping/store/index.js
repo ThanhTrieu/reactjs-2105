@@ -10,8 +10,8 @@ import history from '../helpers/history';
 const configRootPersist = {
   key: 'Shopping_React2105',
   storage: storage,
-  whitelist: ['cartReducer'],  // ten cua reducer ben phia root reducer
-  blacklist: ['router'] //ko luu
+  //whitelist: ['cartReducer'],  // ten cua reducer ben phia root reducer
+  blacklist: ['router','loginReducer'] //ko luu
 }
 
 const rootReducerPersistent = persistReducer(configRootPersist, rootReducer(history));

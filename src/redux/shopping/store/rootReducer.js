@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import { homeReducer } from '../pages/home/reducer';
 import { detailReducer } from '../pages/detail/reducer';
 import { cartReducer } from '../pages/cart/reducer';
+import { loginReducer } from '../pages/login/reducer';
 import { connectRouter } from 'connected-react-router';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
@@ -19,6 +20,7 @@ const rootReducer = (history) => combineReducers({
   router: connectRouter(history),
   homeReducer,
   detailReducer,
+  loginReducer,
   cartReducer: persistReducer(configPersistCart, cartReducer)
 });
 export default rootReducer;
