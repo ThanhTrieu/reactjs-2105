@@ -1,18 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Col, Row,Form, Input, Button } from 'antd';
 import { loginRequest } from './actions';
-import { messageErr } from './reselect';
+import { messageErr, loadingLogin, getStatusLogin } from './reselect';
 import { createStructuredSelector } from 'reselect';
+import { useHistory } from "react-router-dom";
 
 const LoginShopping = () => {
+    const historyLogin = useHistory();
     const dispatch = useDispatch();
-    const { messErr } = useSelector(createStructuredSelector({
-        messErr: messageErr
+    const { messErr, loading, status } = useSelector(createStructuredSelector({
+        messErr: messageErr,
+        loading: loadingLogin,
+        status: getStatusLogin
     }));
 
+    useEffect(() => {
+        if(status){
+            historyLogin.push("/");
+        } else {
+            historyLogin.push("/login");
+        }
+    }, [dispatch, status, historyLogin])
+
     const onFinish = (values) => {
-        //console.log('Success:', values);
         dispatch(loginRequest(values.username, values.password));
     };
     
@@ -73,8 +84,8 @@ const LoginShopping = () => {
                         span: 16,
                         }}
                     >
-                        <Button type="primary" htmlType="submit">
-                        Submit
+                        <Button type="primary" htmlType="submit" loading={loading}>
+                            Submit
                         </Button>
                     </Form.Item>
                 </Form>

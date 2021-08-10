@@ -5,7 +5,26 @@ const saveTokenLocalStorage = (token) => {
     }
 }
 
+const getTokenStorage = () => {
+    const token = window.localStorage.getItem('token_login_shopping');
+    return token;
+}
+
+const checkIsAuthenticated = () => {
+    const tokenLogin = getTokenStorage();
+    if(tokenLogin !== null && tokenLogin !== undefined && tokenLogin !== ''){
+        return true;
+    }
+    return false;
+}
+
+const removeTokenLocalStorage = () => {
+    window.localStorage.removeItem('token_login_shopping');
+}
 
 export const token = {
-    saveTokenLocalStorage
+    saveTokenLocalStorage,
+    checkIsAuthenticated,
+    removeTokenLocalStorage,
+    getTokenStorage
 }

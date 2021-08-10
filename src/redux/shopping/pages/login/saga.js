@@ -3,7 +3,18 @@ import * as actions from './actions';
 import { apiLogin } from '../../services/login';
 import { token } from '../../helpers/token';
 import { helper } from '../../helpers/common';
-import { push } from 'connected-react-router';
+//import { push } from 'connected-react-router';
+
+function* logoutSaga() {
+    try {
+        // cap nhat lai sate login
+        yield put(actions.logoutUserSuccess(false));
+        // xoa token
+        token.removeTokenLocalStorage();
+    } catch (err) {
+        yield put(actions.logoutUserFail(err));
+    }
+}
 
 function* loginSaga({email, password}) {
     try {
@@ -12,9 +23,10 @@ function* loginSaga({email, password}) {
 
         if(!helper.isEmptyObject(data) && data.hasOwnProperty('token')) {
             token.saveTokenLocalStorage(data['token']);
-
+            //console.log(data['token']);
             // quay vao trang home
-            yield put(push('/'));
+            //yield put(push('/'));
+            yield put(actions.loginUserSuccess(true));
         } else {
             yield put(actions.loginUserFailure({
                 cod: 404,
@@ -33,4 +45,8 @@ function* loginSaga({email, password}) {
 
 export function* watchLoginSaga(){
     yield takeLatest(actions.LOGIN_REQUEST, loginSaga);
+}
+
+export function* watchLogoutSaga() {
+    yield takeLatest(actions.LOGOUT_REQUEST, logoutSaga);
 }

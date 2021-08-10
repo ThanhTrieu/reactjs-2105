@@ -2,7 +2,8 @@ import * as actions from './actions';
 
 const initialState = {
     loading: false,
-    error: {}
+    error: {},
+    statusLogin: false
 }
 
 export const loginReducer = (state = initialState, action) => {
@@ -15,7 +16,22 @@ export const loginReducer = (state = initialState, action) => {
         case actions.LOGIN_USER_FAIL:
             return {
                 ...state,
-                ...{ error: action.error}
+                ...{ error: action.error, statusLogin: false }
+            }
+        case actions.LOGIN_USER_SUCCESS:
+            return {
+                ...state,
+                ...{statusLogin: action.status, error: {}}
+            }
+        case actions.LOGOUT_USER_SUCCESS:
+            return {
+                ...state,
+                ...{ statusLogin: action.status }
+            }
+        case actions.LOGOUT_USER_FAIL:
+            return {
+                ...state,
+                ...{ error: action.error }
             }
         default:
             return state;

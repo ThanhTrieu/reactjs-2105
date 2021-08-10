@@ -1,31 +1,76 @@
 import React, { lazy, Suspense } from 'react';
 import {
   Switch,
-  Route
+  Route,
+  Redirect
 } from "react-router-dom";
 import { Skeleton } from 'antd';
+import { token } from '../helpers/token';
 
 const HomePage   = lazy(() => import('../pages/home/index'));
 const DetailPage = lazy(() => import('../pages/detail/index'));
 const CartPage   = lazy(() => import('../pages/cart/index'));
 const LoginPage  = lazy(() => import('../pages/login/index'));
 
+function PrivateRoute({ children, ...rest }) {
+  let auth = token.checkIsAuthenticated();
+  return (
+    <Route
+      {...rest}
+      render={({ location }) =>
+        auth ? (
+          children
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/login",
+              state: { from: location }
+            }}
+          />
+        )
+      }
+    />
+  );
+}
+
+function PrivateRouteLogin({ children, ...rest }) {
+  let auth = token.checkIsAuthenticated();
+  return (
+    <Route
+      {...rest}
+      render={({ location }) =>
+        auth ? (
+          <Redirect
+            to={{
+              pathname: "/",
+              state: { from: location }
+            }}
+          />
+        ) : (
+          children
+        )
+      }
+    />
+  );
+}
+
 const RoutesApp = () => {
   return (
       <Suspense fallback={<Skeleton active />}>
         <Switch>
-          <Route path="/" exact>
+          <PrivateRoute path="/" exact>
             <HomePage/>
-          </Route>
-          <Route path="/product/:slug/:id">
+          </PrivateRoute>
+          <PrivateRoute path="/product/:slug/:id">
             <DetailPage/>
-          </Route>
-          <Route path="/cart">
+          </PrivateRoute>
+          <PrivateRoute path="/cart">
             <CartPage/>
-          </Route>
-          <Route path="/login">
+          </PrivateRoute>
+
+          <PrivateRouteLogin path="/login">
             <LoginPage/>
-          </Route>
+          </PrivateRouteLogin>
         </Switch>
       </Suspense>
   )
